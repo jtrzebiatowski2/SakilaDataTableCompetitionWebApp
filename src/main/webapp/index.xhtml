@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    
+    <h:head>
+        <title>Movies</title>
+        <h:outputStylesheet name="css/jsfcrud.css"/>
+    </h:head>
+      <h:body>
+      <h:form>  
+          <p:dataTable var="film" value="#{filmBean.filmList}"
+                 paginator="true" rows="10"  
+                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
+                 rowsPerPageTemplate="5,10,15"
+                 style="text-align:center;">  
+        
+        <p:column sortBy="title" headerText="Title">  
+            <h:outputText value="#{film.title}" />  
+        </p:column>  
+  
+        <p:column sortBy="description" headerText="Description">  
+            <h:outputText value="#{film.description}" />  
+        </p:column>  
+  
+        <p:column sortBy = "rating" headerText="Critic Rating">  
+            <h:outputText value="#{film.rating}" />  
+        </p:column>  
+        
+        <p:column sortBy="length" headerText="Film Length">  
+                    <h:outputText value="#{film.length} mins" />  
+        </p:column>  
+  
+        <p:column sortBy="rentalRate" headerText="Rental Rate">  
+            <h:outputText value="#{film.rentalRate}" />  
+        </p:column>  
+    </p:dataTable>  
+</h:form>  
+    </h:body>
+</html>
