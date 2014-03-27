@@ -3,40 +3,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
-    
-    <h:head>
-        <title>Movies</title>
-        <h:outputStylesheet name="css/jsfcrud.css"/>
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<!--Complex Data Table-->
+<h:head>
+        <title>Film List</title>
     </h:head>
-      <h:body>
-      <h:form>  
-          <p:dataTable var="film" value="#{filmBean.filmList}"
-                 paginator="true" rows="10"  
-                 paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"  
-                 rowsPerPageTemplate="5,10,15"
-                 style="text-align:center;">  
-        
-        <p:column sortBy="title" headerText="Title">  
-            <h:outputText value="#{film.title}" />  
-        </p:column>  
-  
-        <p:column sortBy="description" headerText="Description">  
-            <h:outputText value="#{film.description}" />  
-        </p:column>  
-  
-        <p:column sortBy = "rating" headerText="Critic Rating">  
-            <h:outputText value="#{film.rating}" />  
-        </p:column>  
-        
-        <p:column sortBy="length" headerText="Film Length">  
-                    <h:outputText value="#{film.length} mins" />  
-        </p:column>  
-  
-        <p:column sortBy="rentalRate" headerText="Rental Rate">  
-            <h:outputText value="#{film.rentalRate}" />  
-        </p:column>  
-    </p:dataTable>  
-</h:form>  
+    <h:body>
+        <h:form id="form">  
+            <p:dataTable var="film" value="#{filmBean.listOfFilms}" rowKey="#{film.title}" stickyHeader="true" paginator="true" rows="25"  
+                         selection="#{filmBean.selectedFilm}" selectionMode="single" filteredValue="#{filmBean.filteredFilms}" id="filmsTable">>
+                <p:ajax event="rowSelect" update=":form:display" oncomplete="d1g2.show()" /> 
+                <f:facet name="header">
+                    Film Library
+                </f:facet>
+                <p:column headerText="Title" sortBy="title" filterBy="title" id="title">#{film.title}</p:column>
+                <p:column headerText="Rating" sortBy="rating" filterBy="rating" id="rating" style="text-align:center;">#{film.rating}</p:column>
+                <p:column headerText="Film Duration" sortBy="length" filterBy="length" id="length" style="text-align:center;">#{film.length} mins</p:column>
+                <p:column headerText="Rental Rate" sortBy="rentalRate" filterBy="rentalRate" id="rentalRate" style="text-align:center;">$#{film.rentalRate}</p:column>
+                <f:facet name="footer">  
+                    In total there are #{fn: length(filmBean.listOfFilms)} films.  
+                </f:facet> 
+            </p:dataTable>           
+            <p:dialog header="Film Detail" widgetVar="d1g2" resizable="false"  
+                      width="600" showEffect="explode" hideEffect="explode">  
+
+                <h:panelGrid id="display" columns="2" cellpadding="4">  
+
+                    <h:outputText value="Title:" />  
+                    <h:outputText value="#{filmBean.getSelectedFilm().title}" id="model"/>  
+     
+                    <h:outputText value="Description:" />  
+                    <h:outputText value="#{filmBean.getSelectedFilm().description}" id="description"/>  
+
+                    <h:outputText value="Special Features:" />  
+                    <h:outputText value="#{filmBean.getSelectedFilm().specialFeatures}" id="specialFeatures"/>
+                    
+                </h:panelGrid>  
+            </p:dialog>   
+
+        </h:form>
     </h:body>
 </html>
